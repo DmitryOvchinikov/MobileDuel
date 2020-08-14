@@ -26,10 +26,12 @@ public class Player {
     }
 
     //If health is below 0, you lost.
-    public void checkState() {
+    public boolean checkState() {
         if (this.health <= 0) {
             this.setState(false);
+            return false;
         }
+        return true;
     }
 
     public int getHealth() {
