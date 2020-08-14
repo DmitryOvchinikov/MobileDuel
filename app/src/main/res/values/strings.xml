@@ -1,11 +1,14 @@
 <resources>
     <string name="app_name">Mobile Duel</string>
 
-    <!--                          BUTTONS                          -->
+    <!--                          MAIN                         -->
 
     <string name="main_BTN_light">Light Attack</string>
     <string name="main_BTN_heavy">Heavy Attack</string>
     <string name="main_BTN_heal">Heal</string>
+    <string name="left_player">LEFT_PLAYER</string>
+    <string name="right_player">RIGHT_PLAYER</string>
+    <string name="main_background">MAIN_BACKGROUND</string>
 
 
 </resources>
