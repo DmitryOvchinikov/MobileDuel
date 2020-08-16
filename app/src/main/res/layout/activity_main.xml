@@ -61,7 +61,7 @@
         android:layout_toEndOf="@+id/main_IMG_leftPlayer">
 
         <Button
-            android:id="@+id/main_BTN_left1"
+            android:id="@+id/main_BTN_leftlight"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_weight="1"
@@ -70,7 +70,7 @@
             />
 
         <Button
-            android:id="@+id/main_BTN_left2"
+            android:id="@+id/main_BTN_leftheavy"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_weight="1"
@@ -79,7 +79,7 @@
             />
 
         <Button
-            android:id="@+id/main_BTN_left3"
+            android:id="@+id/main_BTN_leftheal"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_weight="1"
@@ -97,7 +97,7 @@
         android:layout_toStartOf="@+id/main_IMG_rightPlayer">
 
         <Button
-            android:id="@+id/main_BTN_right1"
+            android:id="@+id/main_BTN_rightlight"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_weight="1"
@@ -106,7 +106,7 @@
         />
 
         <Button
-            android:id="@+id/main_BTN_right2"
+            android:id="@+id/main_BTN_rightheavy"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_weight="1"
@@ -115,7 +115,7 @@
         />
 
         <Button
-            android:id="@+id/main_BTN_right3"
+            android:id="@+id/main_BTN_rightheal"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_weight="1"
