@@ -3,12 +3,20 @@
 
     <!--                          MAIN                         -->
 
+    <string name="mode">mode</string>
+    <string name="play">play</string>
+    <string name="automatic">Automatic</string>
+    <string name="manual">Manual</string>
+    <string name="automatic_game">Automatic Game</string>
+    <string name="manual_game">Manual Game</string>
+
+    <!--                         MANUAL                         -->
+
     <string name="main_BTN_light">Light Attack</string>
     <string name="main_BTN_heavy">Heavy Attack</string>
     <string name="main_BTN_heal">Heal</string>
     <string name="left_player">LEFT_PLAYER</string>
     <string name="right_player">RIGHT_PLAYER</string>
     <string name="main_background">MAIN_BACKGROUND</string>
-
 
 </resources>
