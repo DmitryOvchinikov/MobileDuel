@@ -42,7 +42,7 @@ public class Player {
         this.health = health;
     }
 
-    public boolean isState() {
+    public boolean getState() {
         return state;
     }
 

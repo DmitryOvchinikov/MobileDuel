@@ -22,6 +22,7 @@
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_above="@id/main_IMG_leftPlayer"
         android:layout_marginBottom="10dp"
+        android:scaleY="5"
     />
 
     <ProgressBar
@@ -32,6 +33,7 @@
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_above="@id/main_IMG_rightPlayer"
         android:layout_marginBottom="10dp"
+        android:scaleY="5"
     />
 
     <ImageView
@@ -66,7 +68,6 @@
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:text="@string/main_BTN_light"
-            android:background="@drawable/action_buttons"
             />
 
         <Button
@@ -75,7 +76,6 @@
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:text="@string/main_BTN_heavy"
-            android:background="@drawable/action_buttons"
             />
 
         <Button
@@ -84,7 +84,6 @@
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:text="@string/main_BTN_heal"
-            android:background="@drawable/action_buttons"
             />
 
     </LinearLayout>
@@ -102,7 +101,6 @@
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:text="@string/main_BTN_light"
-            android:background="@drawable/action_buttons"
         />
 
         <Button
@@ -111,7 +109,6 @@
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:text="@string/main_BTN_heavy"
-            android:background="@drawable/action_buttons"
         />
 
         <Button
@@ -120,7 +117,6 @@
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:text="@string/main_BTN_heal"
-            android:background="@drawable/action_buttons"
         />
 </LinearLayout>
 

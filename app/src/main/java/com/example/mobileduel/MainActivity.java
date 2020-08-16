@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         setButtonListeners();
         initializeProgressBars();
 
+        //Left player always starts first, as per the instructions.
         activateButtons("left");
         deactivateButtons("right");
     }
@@ -57,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
         main_BAR_rightPlayer.setMax(right_player.getHealth());
         main_BAR_rightPlayer.setProgress(right_player.getHealth());
 
-        main_BAR_leftPlayer.getProgressDrawable().setColorFilter(Color.BLUE, PorterDuff.Mode.SRC_IN);
-        main_BAR_rightPlayer.getProgressDrawable().setColorFilter(Color.BLUE, PorterDuff.Mode.SRC_IN);
+        main_BAR_leftPlayer.getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
+        main_BAR_rightPlayer.getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
     }
 
     //Decided to use the switch onClickListener method regardless of the fact you have said its bad in one of the lectures, so I won't have to duplicate a lot of code.
@@ -91,16 +92,16 @@ public class MainActivity extends AppCompatActivity {
     };
 
     //Play a single turn.
-    private void playTurn(Player player, int x, String activated_side, String deactivated_side) {
-        // x:
+    private void playTurn(Player player, int action_number, String activate_side, String deactivate_side) {
+        // action_number:
         // 0 - Light attack
         // 1 - Heavy attack
         // 2 - Heal
 
         //play an action, activate and deactivate the relevant buttons
-        player.action(x);
-        activateButtons(activated_side);
-        deactivateButtons(deactivated_side);
+        player.action(action_number);
+        activateButtons(activate_side);
+        deactivateButtons(deactivate_side);
 
         updateProgressBars();
 
@@ -115,18 +116,18 @@ public class MainActivity extends AppCompatActivity {
         updateProgressBarColors();
     }
 
-    //Change the color of the progress bars if they are below 15 to RED, otherwise to BLUE.
+    //Change the color of the progress bars if they are below 15 to RED, otherwise to GREEN.
     private void updateProgressBarColors() {
         if (main_BAR_leftPlayer.getProgress() <= 15) {
             main_BAR_leftPlayer.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
         } else {
-            main_BAR_leftPlayer.getProgressDrawable().setColorFilter(Color.BLUE, PorterDuff.Mode.SRC_IN);
+            main_BAR_leftPlayer.getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
         }
 
         if (main_BAR_rightPlayer.getProgress() <= 15) {
             main_BAR_rightPlayer.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
         } else {
-            main_BAR_rightPlayer.getProgressDrawable().setColorFilter(Color.BLUE, PorterDuff.Mode.SRC_IN);
+            main_BAR_rightPlayer.getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
         }
     }
 
@@ -141,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //Reset the game into its default position.
     private void resetGame() {
         left_player.setHealth(50);
         left_player.setState(true);
@@ -148,6 +150,10 @@ public class MainActivity extends AppCompatActivity {
         right_player.setState(true);
 
         initializeProgressBars();
+
+        //Left player always starts first
+        activateButtons("left");
+        deactivateButtons("right");
     }
 
     private void deactivateButtons(String side) {
