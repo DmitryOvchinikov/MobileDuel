@@ -15,8 +15,6 @@ import com.bumptech.glide.Glide;
 
 public class activity_manualGame extends AppCompatActivity {
 
-    //TODO: maybe delete resetGame method since it is not useful if one game is played.
-
     private Button manual_BTN_leftlight;
     private Button manual_BTN_leftheavy;
     private Button manual_BTN_leftheal;
@@ -137,28 +135,13 @@ public class activity_manualGame extends AppCompatActivity {
     private void checkWin() {
         if (!left_player.checkState()) {
             Toast.makeText(this, "Right player won!", Toast.LENGTH_SHORT).show();
-            resetGame();
             finish();
         } else if (!right_player.checkState()) {
             Toast.makeText(this, "Left player won!", Toast.LENGTH_SHORT).show();
-            resetGame();
             finish();
         }
     }
 
-    //Reset the game into its default position.
-    private void resetGame() {
-        left_player.setHealth(50);
-        left_player.setState(true);
-        right_player.setHealth(50);
-        right_player.setState(true);
-
-        initializeProgressBars();
-
-        //Left player always starts first
-        activateButtons("left");
-        deactivateButtons("right");
-    }
 
     private void deactivateButtons(String side) {
         if (side.equals("left")) {

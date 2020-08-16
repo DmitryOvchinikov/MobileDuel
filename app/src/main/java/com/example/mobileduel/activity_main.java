@@ -15,10 +15,10 @@ import androidx.appcompat.widget.SwitchCompat;
 
 import com.bumptech.glide.Glide;
 
-//TODO: Button that sends to the records activity
-//TODO: activity after game that tells how many actions were used and who won
-//TODO: top 10 record activity with a MAP
+//TODO: activity after game that tells how many actions were used and who won (ONLY AUTOMATIC)
+//TODO: top 10 record layout with a MAP in the records layout
 //TODO: sounds / music
+//TODO: save data to sharedPreferences
 
 public class activity_main extends AppCompatActivity {
 
@@ -81,10 +81,12 @@ public class activity_main extends AppCompatActivity {
         }
     };
 
+    //Play the automatic version of the game, exercise 2.
     private void playAutomatic() {
         //TODO: Automatic mode
     }
 
+    //Play the manual version of the game, exercise 1.
     private void playManual() {
         Intent intent = new Intent(this, activity_manualGame.class);
         startActivity(intent);

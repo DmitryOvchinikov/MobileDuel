@@ -1,81 +1,103 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:sothree="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_sliding_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".activity_main">
+    android:gravity="bottom"
+    android:background="@android:color/darker_gray"
+    sothree:umanoPanelHeight="20dp"
+    sothree:umanoShadowHeight="4dp">
 
-    <ImageView
-        android:id="@+id/main_IMG_background"
+    <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="@string/main_background"
-        android:scaleType="centerCrop"
-        />
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".activity_main">
 
+        <ImageView
+            android:id="@+id/main_IMG_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/main_background"
+            android:scaleType="centerCrop"
+            />
+
+        <TextView
+            android:id="@+id/main_LBL_auto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/automatic_game"
+            android:layout_toStartOf="@+id/main_SWT_mode"
+            android:layout_marginBottom="103dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="10dp"
+            android:textColor="@android:color/white"
+            />
+
+        <TextView
+            android:id="@+id/main_LBL_manual"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/manual_game"
+            android:layout_toEndOf="@+id/main_SWT_mode"
+            android:layout_marginBottom="103dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="10dp"
+            android:textColor="@android:color/white"
+            />
+
+        <TextView
+            android:id="@+id/main_LBL_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/main_SWT_mode"
+            android:layout_centerHorizontal="true"
+            android:text="@string/mode"
+            android:textAllCaps="true"
+            android:layout_marginBottom="15dp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/main_SWT_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textOff="@string/automatic"
+            android:textOn="@string/manual"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="100dp"
+            app:switchMinWidth="75dp"
+            />
+
+        <Button
+            android:id="@+id/main_BTN_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/play"
+            android:textAllCaps="true"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@id/main_LBL_mode"
+            android:layout_marginBottom="50dp"
+            android:textStyle="bold"
+            />
+
+
+    </RelativeLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/main_LBL_auto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/automatic_game"
-        android:layout_toStartOf="@+id/main_SWT_mode"
-        android:layout_marginBottom="103dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="10dp"
-        android:textColor="@android:color/white"
-        />
-
-    <TextView
-        android:id="@+id/main_LBL_manual"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/manual_game"
-        android:layout_toEndOf="@+id/main_SWT_mode"
-        android:layout_marginBottom="103dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="10dp"
-        android:textColor="@android:color/white"
-        />
-
-    <TextView
-        android:id="@+id/main_LBL_mode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/main_SWT_mode"
-        android:layout_centerHorizontal="true"
-        android:text="@string/mode"
-        android:textAllCaps="true"
-        android:layout_marginBottom="15dp"
-        android:textColor="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center|top"
+        android:text="@string/records"
+        android:textSize="12sp"
         android:textStyle="bold"
-        />
-
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/main_SWT_mode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textOff="@string/automatic"
-        android:textOn="@string/manual"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="100dp"
-        app:switchMinWidth="75dp"
-
-        />
-
-    <Button
-        android:id="@+id/main_BTN_play"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/play"
         android:textAllCaps="true"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@id/main_LBL_mode"
-        android:layout_marginBottom="50dp"
-        android:textStyle="bold"
         />
-
-
-</RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>
