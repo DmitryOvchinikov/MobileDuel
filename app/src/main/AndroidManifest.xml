@@ -16,8 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity_manualGame"/>
-        <activity android:name=".activity_automaticGame"/>
+        <activity android:name=".activity_game"/>
+        <activity android:name=".activity_finish"/>
     </application>
 
 </manifest>

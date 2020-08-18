@@ -6,13 +6,15 @@ public class Player {
 
     private int health;
     private boolean state;
+    private int turns;
 
     public Player() {
     }
 
-    public Player(int health, boolean state) {
+    public Player(int health, boolean state, int turns) {
         this.health = health;
         this.state = state;
+        this.turns = turns;
     }
 
     public void action(int num) {
@@ -21,7 +23,11 @@ public class Player {
         } else if (num == 1) { //Heavy Attack
             this.health -= 10;
         } else {
-            this.health += 15; //Heal
+            if (this.health > 35) {
+                this.health = 50;
+            } else {
+                this.health += 15;
+            }
         }
     }
 
@@ -48,5 +54,13 @@ public class Player {
 
     public void setState(boolean state) {
         this.state = state;
+    }
+
+    public int getTurns() {
+        return turns;
+    }
+
+    public void setTurns(int turns) {
+        this.turns = turns;
     }
 }

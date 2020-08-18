@@ -12,11 +12,13 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
 //TODO: activity after game that tells how many actions were used and who won (ONLY AUTOMATIC)
-//TODO: top 10 record layout with a MAP in the records layout
+//TODO: top 10 records with a MAP in the records layout
 //TODO: sounds / music
 //TODO: save data to sharedPreferences
 
@@ -30,6 +32,9 @@ public class activity_main extends AppCompatActivity {
 
     private TextView main_LBL_auto;
     private TextView main_LBL_manual;
+
+    private RecyclerView main_recycler_records;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,7 +59,9 @@ public class activity_main extends AppCompatActivity {
             }
         });
 
-
+        adapter_records adapter = new adapter_records(this);
+        main_recycler_records.setAdapter(adapter);
+        main_recycler_records.setLayoutManager(new LinearLayoutManager(this));
 
     }
 
@@ -68,27 +75,19 @@ public class activity_main extends AppCompatActivity {
         main_IMG_background = findViewById(R.id.main_IMG_background);
         main_LBL_auto = findViewById(R.id.main_LBL_auto);
         main_LBL_manual = findViewById(R.id.main_LBL_manual);
+        main_recycler_records = findViewById(R.id.main_recycler_records);
     }
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if (main_SWT_mode.isChecked()) {
-                playManual();
-            } else {
-                playAutomatic();
-            }
+            playGame();
         }
     };
 
-    //Play the automatic version of the game, exercise 2.
-    private void playAutomatic() {
-        //TODO: Automatic mode
-    }
-
-    //Play the manual version of the game, exercise 1.
-    private void playManual() {
-        Intent intent = new Intent(this, activity_manualGame.class);
+    private void playGame() {
+        Intent intent = new Intent(this, activity_game.class);
+        intent.putExtra("game_mode", main_SWT_mode.isChecked());
         startActivity(intent);
     }
 }

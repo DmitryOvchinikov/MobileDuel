@@ -13,11 +13,19 @@
 
     <!--                         MANUAL                         -->
 
-    <string name="main_BTN_light">Light Attack</string>
-    <string name="main_BTN_heavy">Heavy Attack</string>
-    <string name="main_BTN_heal">Heal</string>
+    <string name="light_attack">Light Attack</string>
+    <string name="heavy_attack">Heavy Attack</string>
+    <string name="heal">Heal</string>
     <string name="left_player">LEFT_PLAYER</string>
     <string name="right_player">RIGHT_PLAYER</string>
     <string name="main_background">MAIN_BACKGROUND</string>
+
+    <!--                         FINISH                         -->
+
+    <string name="left_won">Left Player Won!</string>
+    <string name="right_won">Right Player Won!</string>
+    <string name="turns_amount">Turns Played:</string>
+    <string name="back">back</string>
+
 
 </resources>

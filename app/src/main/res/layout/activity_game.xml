@@ -3,10 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity_manualGame">
+    tools:context=".activity_game">
 
     <ImageView
-        android:id="@+id/manual_IMG_background"
+        android:id="@+id/game_IMG_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="@string/main_background"
@@ -15,29 +15,29 @@
 
 
     <ProgressBar
-        android:id="@+id/manual_BAR_leftPlayer"
+        android:id="@+id/game_BAR_leftPlayer"
         android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_above="@id/manual_IMG_leftPlayer"
+        android:layout_above="@id/game_IMG_leftPlayer"
         android:layout_marginBottom="10dp"
         android:scaleY="5"
     />
 
     <ProgressBar
-        android:id="@+id/manual_BAR_rightPlayer"
+        android:id="@+id/game_BAR_rightPlayer"
         android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_above="@id/manual_IMG_rightPlayer"
+        android:layout_above="@id/game_IMG_rightPlayer"
         android:layout_marginBottom="10dp"
         android:scaleY="5"
     />
 
     <ImageView
-        android:id="@+id/manual_IMG_leftPlayer"
+        android:id="@+id/game_IMG_leftPlayer"
         android:layout_width="125dp"
         android:layout_height="125dp"
         android:layout_alignParentStart="true"
@@ -46,7 +46,7 @@
         />
 
     <ImageView
-        android:id="@+id/manual_IMG_rightPlayer"
+        android:id="@+id/game_IMG_rightPlayer"
         android:layout_width="125dp"
         android:layout_height="125dp"
         android:layout_alignParentEnd="true"
@@ -60,32 +60,32 @@
         android:layout_height="125dp"
         android:orientation="vertical"
         android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/manual_IMG_leftPlayer">
+        android:layout_toEndOf="@+id/game_IMG_leftPlayer">
 
         <Button
-            android:id="@+id/manual_BTN_leftlight"
+            android:id="@+id/game_BTN_leftlight"
             android:layout_height="wrap_content"
             android:layout_width="150dp"
             android:layout_weight="1"
-            android:text="@string/main_BTN_light"
+            android:text="@string/light_attack"
             android:textStyle="bold"
             />
 
         <Button
-            android:id="@+id/manual_BTN_leftheavy"
+            android:id="@+id/game_BTN_leftheavy"
             android:layout_height="wrap_content"
             android:layout_width="150dp"
             android:layout_weight="1"
-            android:text="@string/main_BTN_heavy"
+            android:text="@string/heavy_attack"
             android:textStyle="bold"
             />
 
         <Button
-            android:id="@+id/manual_BTN_leftheal"
+            android:id="@+id/game_BTN_leftheal"
             android:layout_height="wrap_content"
             android:layout_width="150dp"
             android:layout_weight="1"
-            android:text="@string/main_BTN_heal"
+            android:text="@string/heal"
             android:textStyle="bold"
             />
 
@@ -96,32 +96,32 @@
         android:layout_height="125dp"
         android:orientation="vertical"
         android:layout_centerVertical="true"
-        android:layout_toStartOf="@+id/manual_IMG_rightPlayer">
+        android:layout_toStartOf="@+id/game_IMG_rightPlayer">
 
         <Button
-            android:id="@+id/manual_BTN_rightlight"
+            android:id="@+id/game_BTN_rightlight"
             android:layout_height="wrap_content"
             android:layout_width="150dp"
             android:layout_weight="1"
-            android:text="@string/main_BTN_light"
+            android:text="@string/light_attack"
             android:textStyle="bold"
         />
 
         <Button
-            android:id="@+id/manual_BTN_rightheavy"
+            android:id="@+id/game_BTN_rightheavy"
             android:layout_height="wrap_content"
             android:layout_width="150dp"
             android:layout_weight="1"
-            android:text="@string/main_BTN_heavy"
+            android:text="@string/heavy_attack"
             android:textStyle="bold"
         />
 
         <Button
-            android:id="@+id/manual_BTN_rightheal"
+            android:id="@+id/game_BTN_rightheal"
             android:layout_height="wrap_content"
             android:layout_width="150dp"
             android:layout_weight="1"
-            android:text="@string/main_BTN_heal"
+            android:text="@string/heal"
             android:textStyle="bold"
         />
 </LinearLayout>
