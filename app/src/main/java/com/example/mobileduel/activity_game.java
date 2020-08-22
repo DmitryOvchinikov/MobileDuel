@@ -7,16 +7,21 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Random;
+
+//TODO: change the activate/deactivate button methods to a single one
 
 public class activity_game extends AppCompatActivity {
 
@@ -37,9 +42,14 @@ public class activity_game extends AppCompatActivity {
     private Player left_player;
     private Player right_player;
 
+    private Player current_auto_player;
+
     private boolean game_mode;
 
-    private SharedPreferences sharedPreferences;
+    private Runnable automatic_runnable;
+    private Handler automatic_handler;
+
+    private boolean isRunnableActive;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +58,8 @@ public class activity_game extends AppCompatActivity {
 
         game_mode = getIntent().getExtras().getBoolean("game_mode");
 
-        left_player = new Player(50, true, 0);
-        right_player = new Player(50, true, 0);
+        left_player = new Player(50, true, 1, 0);
+        right_player = new Player(50, true, 1, 1);
 
         findViews();
         glideIMGs();
@@ -63,30 +73,58 @@ public class activity_game extends AppCompatActivity {
         } else {
             playAutomatic();
         }
+
+
     }
 
     private void playAutomatic() {
         deactivateButtons("left");
         deactivateButtons("right");
-        boolean choice = chooseStartingSide();
-        //choice false = right
-        //choice true = left
-    }
 
-    private void playAutomaticTurn(Player player, int action_number, boolean choice) {
-        // action_number:
-        // 0 - Light attack
-        // 1 - Heavy attack
-        // 2 - Heal
+        isRunnableActive = true;
 
-        if (choice) {
-            left_player.action(action_number);
-        } else {
-            right_player.action(action_number);
+        final Random rand = new Random();
+        final int delay = 1000;
+        current_auto_player = chooseStartingPlayer();
+
+        automatic_handler = new Handler();
+        automatic_runnable = new Runnable() {
+            @Override
+            public void run() {
+                Player p = checkWin();
+                if (p != null) {
+                    automatic_handler.removeCallbacksAndMessages(automatic_runnable);
+                    finishGame(p);
+                    return;
+                }
+                if (!isRunnableActive) {
+                    return;
+                }
+
+                //Change player to play a turn
+                if (current_auto_player == left_player) {
+                    current_auto_player = right_player;
+                } else {
+                    current_auto_player = left_player;
+                }
+
+                if (current_auto_player.getHealth() == 50) {
+                    current_auto_player.action(rand.nextInt(2)); //not using heal at max health
+                } else {
+                    current_auto_player.action(rand.nextInt(3));
+                }
+
+                updateProgressBars();
+                current_auto_player.incrementTurn();
+                Log.d("oof", "TURN PLAYED");
+                automatic_handler.postDelayed(automatic_runnable, delay);
+                }
+            };
+        automatic_handler.postDelayed(automatic_runnable, delay);
         }
 
-        player.setTurns( player.getTurns() + 1 );
-    }
+
+
 
     //Play a single turn.
     private void playManualTurn(Player player, int action_number, String activate_side, String deactivate_side) {
@@ -102,15 +140,21 @@ public class activity_game extends AppCompatActivity {
 
         updateProgressBars();
 
-        player.setTurns( player.getTurns() + 1 );
-        checkWin(game_mode);
+        Player winning_player = checkWin();
+        if (winning_player != null) {
+            finishGame(winning_player);
+        }
     }
 
     //Pseudo-randomize a starting side via nextDouble.
-    private boolean chooseStartingSide() {
+    private Player chooseStartingPlayer() {
         Random rand = new Random();
         double num = rand.nextDouble();
-        return num >= 0.5;
+        if (num >= 0.5) {
+            return left_player;
+        } else {
+            return right_player;
+        }
     }
 
     private void initializeProgressBars() {
@@ -131,21 +175,27 @@ public class activity_game extends AppCompatActivity {
             switch (view.getId()) {
                 case R.id.game_BTN_leftlight:
                     playManualTurn(right_player, 0, "right", "left");
+                    left_player.incrementTurn();
                     break;
                 case R.id.game_BTN_leftheavy:
                     playManualTurn(right_player, 1, "right", "left");
+                    left_player.incrementTurn();
                     break;
                 case R.id.game_BTN_leftheal:
                     playManualTurn(left_player, 2, "right", "left");
+                    left_player.incrementTurn();
                     break;
                 case R.id.game_BTN_rightlight:
                     playManualTurn(left_player, 0, "left", "right");
+                    right_player.incrementTurn();
                     break;
                 case R.id.game_BTN_rightheavy:
                     playManualTurn(left_player, 1, "left", "right");
+                    right_player.incrementTurn();
                     break;
                 case R.id.game_BTN_rightheal:
                     playManualTurn(right_player, 2, "left", "right");
+                    right_player.incrementTurn();
                     break;
                 default:
                     break;
@@ -177,20 +227,26 @@ public class activity_game extends AppCompatActivity {
     }
 
     //Check if a player won the game.
-    private void checkWin(boolean game_mode) {
-        if (!left_player.checkState()) {
-            Intent intent = new Intent(this, activity_finish.class);
-            intent.putExtra("player_side", "Left");
-            intent.putExtra("player_turns", left_player.getTurns());
-            startActivity(intent);
-            finish();
-        } else if (!right_player.checkState()) {
-            Intent intent = new Intent(this, activity_finish.class);
-            intent.putExtra("player_side", "Right");
-            intent.putExtra("player_turns", right_player.getTurns());
-            startActivity(intent);
-            finish();
+    private Player checkWin() {
+        if (left_player.checkState()) { //left player died, right player won
+            return right_player;
+        } else if (right_player.checkState()) { //right player died, left player won
+            return left_player;
         }
+        return null;
+    }
+
+    private void finishGame(Player p) {
+        deactivateButtons("Left");
+        deactivateButtons("Right");
+
+        saveToSharedPreferences(p);
+
+        Intent intent = new Intent(this, activity_finish.class);
+        intent.putExtra("player_side", p.getSide());
+        intent.putExtra("player_turns", p.getTurns());
+        startActivity(intent);
+        finish();
     }
 
     private void deactivateButtons(String side) {
@@ -218,13 +274,20 @@ public class activity_game extends AppCompatActivity {
     }
 
     private void saveToSharedPreferences(Player player) {
-        sharedPreferences = getSharedPreferences("GAME", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+        ArrayList<Player> players = MySharedPreferences.getInstance().getPlayers();
+        players.add(player);
+        Collections.sort(players, new Comparator<Player>(){
+            @Override
+            public int compare(Player p1, Player p2) {
+                return p1.getTurns() - p2.getTurns();
+            }
+        });
 
-        Gson gson = new Gson();
-        String playerJson = gson.toJson(player);
-        editor.putString("TOP10_PLAYERS", playerJson);
-        editor.apply();
+        if (players.size() >= 6) { //forcing a top 5
+            players.remove(players.size()-1);
+        }
+
+        MySharedPreferences.getInstance().putPlayers(players);
     }
 
     private void setButtonListeners() {
@@ -256,5 +319,36 @@ public class activity_game extends AppCompatActivity {
 
         game_BAR_leftPlayer = findViewById(R.id.game_BAR_leftPlayer);
         game_BAR_rightPlayer = findViewById(R.id.game_BAR_rightPlayer);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        //if the runnable is active and the game mode is automatic, stop the runnable
+        if (isRunnableActive && !game_mode) {
+            automatic_handler.removeCallbacksAndMessages(automatic_runnable);
+            isRunnableActive = false;
+        }
+        Log.d("oof", "ON STOP");
+    }
+
+    @Override
+    protected void onResume() {
+        Log.d("oof", "ON RESUME");
+
+        //If the runnable is not active and the game mode is automatic - start up the automatic runnable.
+        if (!isRunnableActive && !game_mode) {
+            isRunnableActive = true;
+            automatic_handler.postDelayed(automatic_runnable, 1000);
+        }
+
+        super.onResume();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        onStop();
     }
 }

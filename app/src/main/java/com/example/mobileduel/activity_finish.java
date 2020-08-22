@@ -1,6 +1,7 @@
 package com.example.mobileduel;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -34,11 +35,19 @@ public class activity_finish extends AppCompatActivity {
     };
 
     private void updateTitle() {
-        if (getIntent().getExtras().getString("player_side").equals("Left")) {
+        if (getIntent().getExtras().getInt("player_side") == 0) {
             finish_LBL_title.setText(R.string.left_won);
         } else {
             finish_LBL_title.setText(R.string.right_won);
         }
+    }
+
+    @Override
+    protected void onPause() {
+        //update records when going back to the main menu
+        adapter_records.getInstance().setTOP10_players(MySharedPreferences.getInstance().getPlayers());
+        adapter_records.getInstance().notifyDataSetChanged();
+        super.onPause();
     }
 
     private void findViews() {

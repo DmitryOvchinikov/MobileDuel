@@ -7,14 +7,16 @@ public class Player {
     private int health;
     private boolean state;
     private int turns;
+    private int side; // 0 - left, 1 - right
 
     public Player() {
     }
 
-    public Player(int health, boolean state, int turns) {
+    public Player(int health, boolean state, int turns, int side) {
         this.health = health;
         this.state = state;
         this.turns = turns;
+        this.side = side;
     }
 
     public void action(int num) {
@@ -35,9 +37,9 @@ public class Player {
     public boolean checkState() {
         if (this.health <= 0) {
             this.setState(false);
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     public int getHealth() {
@@ -60,7 +62,14 @@ public class Player {
         return turns;
     }
 
-    public void setTurns(int turns) {
-        this.turns = turns;
+    public void incrementTurn() {
+        this.turns++;
+    }
+
+    public int getSide() {
+        return side;
+    }
+    public void setSide(int side) {
+        this.side = side;
     }
 }

@@ -10,8 +10,9 @@
     <string name="automatic_game">Automatic Game</string>
     <string name="manual_game">Manual Game</string>
     <string name="records">Records</string>
+    <string name="update_records">Reset Records</string>
 
-    <!--                         MANUAL                         -->
+    <!--                         GAME                         -->
 
     <string name="light_attack">Light Attack</string>
     <string name="heavy_attack">Heavy Attack</string>
@@ -26,6 +27,10 @@
     <string name="right_won">Right Player Won!</string>
     <string name="turns_amount">Turns Played:</string>
     <string name="back">back</string>
+
+    <!--                         RECORD                         -->
+
+    <string name="turns">  Turns:</string>
 
 
 </resources>

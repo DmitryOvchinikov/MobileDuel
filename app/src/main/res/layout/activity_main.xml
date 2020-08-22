@@ -1,14 +1,15 @@
 <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:sothree="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_sliding_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom"
-    android:background="@android:color/darker_gray"
-    sothree:umanoPanelHeight="20dp"
+    android:background="#00FFFFFF"
+    sothree:umanoPanelHeight="22dp"
     sothree:umanoShadowHeight="4dp">
 
-    <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -69,7 +70,7 @@
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="100dp"
-            app:trackTint="@color/transparent"
+            app:trackTint="@color/black"
             app:thumbTint="@color/white"
             app:switchMinWidth="75dp"
             />
@@ -86,13 +87,51 @@
             android:textStyle="bold"
             />
 
+        <Button
+            android:id="@+id/main_BTN_reset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/update_records"
+            android:textStyle="bold"
+            android:layout_below="@+id/main_LBL_mode"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            />
+
 
     </RelativeLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/main_recycler_records"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-    </androidx.recyclerview.widget.RecyclerView>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/main_recycler_records"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            sothree:layout_constraintTop_toBottomOf="@id/main_header_records">
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <RelativeLayout
+            android:id="@+id/main_header_records"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:background="@drawable/records_header_border"
+            sothree:layout_constraintBottom_toTopOf="@+id/main_recycler_records"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center|top"
+                android:text="@string/records"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/dark_red"
+                />
+
+        </RelativeLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>

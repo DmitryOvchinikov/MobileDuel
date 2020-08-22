@@ -17,14 +17,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
-//TODO: activity after game that tells how many actions were used and who won (ONLY AUTOMATIC)
-//TODO: top 10 records with a MAP in the records layout
+import java.util.ArrayList;
+
+//TODO: Map in the records sliding panel
 //TODO: sounds / music
-//TODO: save data to sharedPreferences
+//TODO: fix the fact that the handler does not stop when onPause() / onStop() are used
+//TODO: fix records panel header
+//TODO: change sharedPreferences to be used from MyApplication initialized instance
 
 public class activity_main extends AppCompatActivity {
 
     private Button main_BTN_play;
+    private Button main_BTN_reset;
 
     private SwitchCompat main_SWT_mode;
 
@@ -35,7 +39,6 @@ public class activity_main extends AppCompatActivity {
 
     private RecyclerView main_recycler_records;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +47,8 @@ public class activity_main extends AppCompatActivity {
         findViews();
         glideIMGs();
 
-        main_BTN_play.setOnClickListener(onClickListener);
+        main_BTN_play.setOnClickListener(playListener);
+        main_BTN_reset.setOnClickListener(resetListener);
 
         main_SWT_mode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -59,10 +63,17 @@ public class activity_main extends AppCompatActivity {
             }
         });
 
-        adapter_records adapter = new adapter_records(this);
-        main_recycler_records.setAdapter(adapter);
+        main_recycler_records.setAdapter(adapter_records.getInstance());
         main_recycler_records.setLayoutManager(new LinearLayoutManager(this));
+        main_recycler_records.getAdapter().notifyDataSetChanged();
 
+    }
+
+    private void resetRecords() {
+        ArrayList<Player> players = new ArrayList<>();
+        MySharedPreferences.getInstance().putPlayers(players);
+        adapter_records.getInstance().setTOP10_players(players);
+        adapter_records.getInstance().notifyDataSetChanged();
     }
 
     private void glideIMGs() {
@@ -76,9 +87,17 @@ public class activity_main extends AppCompatActivity {
         main_LBL_auto = findViewById(R.id.main_LBL_auto);
         main_LBL_manual = findViewById(R.id.main_LBL_manual);
         main_recycler_records = findViewById(R.id.main_recycler_records);
+        main_BTN_reset = findViewById(R.id.main_BTN_reset);
     }
 
-    private View.OnClickListener onClickListener = new View.OnClickListener() {
+    private View.OnClickListener resetListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            resetRecords();
+        }
+    };
+
+    private View.OnClickListener playListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             playGame();

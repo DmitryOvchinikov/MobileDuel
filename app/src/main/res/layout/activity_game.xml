@@ -22,6 +22,7 @@
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_above="@id/game_IMG_leftPlayer"
         android:layout_marginBottom="10dp"
+        android:background="@drawable/progressbar_border"
         android:scaleY="5"
     />
 
@@ -33,6 +34,7 @@
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_above="@id/game_IMG_rightPlayer"
         android:layout_marginBottom="10dp"
+        android:background="@drawable/progressbar_border"
         android:scaleY="5"
     />
 
