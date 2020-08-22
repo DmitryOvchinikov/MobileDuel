@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -50,6 +51,8 @@ public class activity_game extends AppCompatActivity {
     private Handler automatic_handler;
 
     private boolean isRunnableActive;
+
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -330,6 +333,11 @@ public class activity_game extends AppCompatActivity {
             automatic_handler.removeCallbacksAndMessages(automatic_runnable);
             isRunnableActive = false;
         }
+
+        //stop playing music
+        mediaPlayer.stop();
+        mediaPlayer.release();
+
         Log.d("oof", "ON STOP");
     }
 
@@ -342,6 +350,11 @@ public class activity_game extends AppCompatActivity {
             isRunnableActive = true;
             automatic_handler.postDelayed(automatic_runnable, 1000);
         }
+
+        //play music
+        mediaPlayer = MediaPlayer.create(this, R.raw.activity_game_music);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
 
         super.onResume();
     }

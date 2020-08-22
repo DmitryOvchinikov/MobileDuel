@@ -20,10 +20,7 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 //TODO: Map in the records sliding panel
-//TODO: sounds / music
-//TODO: fix the fact that the handler does not stop when onPause() / onStop() are used
 //TODO: fix records panel header
-//TODO: change sharedPreferences to be used from MyApplication initialized instance
 
 public class activity_main extends AppCompatActivity {
 
