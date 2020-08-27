@@ -13,6 +13,16 @@
         android:scaleType="centerCrop"
     />
 
+    <Button
+        android:id="@+id/game_BTN_roll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/roll_dice"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="75dp"
+        android:textStyle="bold"
+        />
 
     <ProgressBar
         android:id="@+id/game_BAR_leftPlayer"
@@ -22,8 +32,7 @@
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_above="@id/game_IMG_leftPlayer"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/progressbar_border"
-        android:scaleY="5"
+        android:progressDrawable="@drawable/progressbar_border"
     />
 
     <ProgressBar
@@ -34,9 +43,8 @@
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_above="@id/game_IMG_rightPlayer"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/progressbar_border"
-        android:scaleY="5"
-    />
+        android:progressDrawable="@drawable/progressbar_border"
+        />
 
     <ImageView
         android:id="@+id/game_IMG_leftPlayer"
@@ -58,6 +66,7 @@
 
 
     <LinearLayout
+        android:id="@+id/game_LBL_leftPlayerLayout"
         android:layout_width="wrap_content"
         android:layout_height="125dp"
         android:orientation="vertical"
@@ -94,6 +103,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/game_LBL_rightPlayerLayout"
         android:layout_width="wrap_content"
         android:layout_height="125dp"
         android:orientation="vertical"
@@ -127,6 +137,23 @@
             android:textStyle="bold"
         />
 </LinearLayout>
+
+    <ImageView
+        android:id="@+id/game_IMG_dice1"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="200dp"
+        />
+
+    <ImageView
+        android:id="@+id/game_IMG_dice2"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="200dp"
+        />
 
 
 </RelativeLayout>
