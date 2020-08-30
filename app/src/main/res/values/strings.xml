@@ -12,6 +12,9 @@
     <string name="records">Records</string>
     <string name="update_records">Reset Records</string>
     <string name="roll_dice">roll dice</string>
+    <string name="location_rationale">Please permit the application to access your location to fully enjoy it.</string>
+    <string name="location_yes">Sure</string>
+    <string name="location_no">No</string>
 
     <!--                         GAME                         -->
 
@@ -31,7 +34,7 @@
 
     <!--                         RECORD                         -->
 
-    <string name="turns">  Turns:</string>
+    <string name="turns">   Turns:</string>
 
 
 </resources>

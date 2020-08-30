@@ -19,12 +19,6 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-//TODO: Map in the records sliding panel
-//TODO: Coin flip / throwing dice animation for the random player choice
-//TODO: fix healing other player
-//TODO: fix progress bar border shenanigans
-//TODO: fix animation disappearing instantly
-
 public class activity_main extends AppCompatActivity {
 
     private Button main_BTN_play;

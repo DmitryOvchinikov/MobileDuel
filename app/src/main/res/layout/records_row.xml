@@ -16,15 +16,27 @@
             android:id="@+id/row_LBL_turns"
             android:layout_width="125dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="5dp"
             android:text="@string/turns"
             android:textColor="@color/dark_red"
             android:textSize="16sp"
             android:textStyle="italic"
+            android:layout_gravity="center_horizontal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:background="@drawable/records_border" />
+
+        <ImageView
+            android:id="@+id/row_IMG_map"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:layout_constraintStart_toEndOf="@id/row_LBL_turns"
+            android:layout_gravity="center"
+            android:layout_marginStart="100dp"
+            android:clickable="true"
+            android:focusable="true"
+            />
+
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

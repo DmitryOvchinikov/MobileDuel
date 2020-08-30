@@ -2,9 +2,12 @@ package com.example.mobileduel;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
+import android.location.Location;
+import android.location.LocationManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,15 +21,23 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
-import javax.xml.datatype.Duration;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
+import pub.devrel.easypermissions.PermissionRequest;
 
 public class activity_game extends AppCompatActivity {
+
+    private static final int LOCATION_REQUEST = 1234;
+    private static final String[] LOCATION_PERMS = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
 
     private Button game_BTN_leftlight;
     private Button game_BTN_leftheavy;
@@ -50,22 +61,28 @@ public class activity_game extends AppCompatActivity {
     private Player current_auto_player;
 
     private boolean game_mode;
+    private boolean isGameActive = false;
 
     private Runnable automatic_runnable;
     private Handler automatic_handler;
     private boolean isRunnableActive;
 
     private MediaPlayer mediaPlayer;
+    private boolean isMusicPlaying = false;
+
+    private LatLng latLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        activateLocation();
+
         game_mode = getIntent().getExtras().getBoolean("game_mode");
 
-        left_player = new Player(50, true, 1, 0);
-        right_player = new Player(50, true, 1, 1);
+        left_player = new Player(50, true, 1, 0, latLng);
+        right_player = new Player(50, true, 1, 1, latLng);
 
         findViews();
         glideIMGs();
@@ -79,9 +96,43 @@ public class activity_game extends AppCompatActivity {
         game_IMG_dice2.setVisibility(View.INVISIBLE);
     }
 
+    @AfterPermissionGranted(LOCATION_REQUEST)
+    private void activateLocation() {
+        if (EasyPermissions.hasPermissions(this, LOCATION_PERMS)) {
+            getLocation();
+        } else {
+            EasyPermissions.requestPermissions( new PermissionRequest.Builder(this, LOCATION_REQUEST, LOCATION_PERMS)
+                    .setRationale(R.string.location_rationale)
+                    .setPositiveButtonText(R.string.location_yes)
+                    .setNegativeButtonText(R.string.location_no)
+                    .build());
+        }
+    }
+
+    //Get the last known location of the user
+    private void getLocation() {
+        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        //Irrelevant to check permissions at this stage since this method is being invoked only AFTER the permissions have been granted.
+        @SuppressLint("MissingPermission") Location loc = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        double[] location = new double[2];
+        location[0] = 0;
+        location[1] = 0;
+        if (loc != null) {
+            location[0] = loc.getLongitude();
+            location[1] = loc.getLatitude();
+        }
+        latLng = new LatLng(location[1], location[0]);
+        Log.d("oof", "" + latLng.toString());
+    }
+
     //Play the game automatically via a handler with a delay of 1 second per turn.
     private void playAutomatic(Player player) {
 
+        //If the game is already active, return from the second instance of this method.
+        if (isGameActive) {
+            return;
+        }
+        isGameActive = true;
         isRunnableActive = true;
 
         final Random rand = new Random();
@@ -92,6 +143,7 @@ public class activity_game extends AppCompatActivity {
         automatic_runnable = new Runnable() {
             @Override
             public void run() {
+
                 Player p = checkWin();
                 if (p != null) {
                     automatic_handler.removeCallbacksAndMessages(automatic_runnable);
@@ -104,23 +156,36 @@ public class activity_game extends AppCompatActivity {
                     return;
                 }
 
+                int random_bound;
+                int action;
+
+                //Not using heal at maximum health
+                if (current_auto_player.getHealth() == 50) {
+                    random_bound = 2;
+                } else {
+                    random_bound = 3;
+                }
+
+                action = rand.nextInt(random_bound);
+                if (action != 2) {
+                    if (current_auto_player.equals(left_player)) {
+                        right_player.action(action);
+                    } else {
+                        left_player.action(action);
+                    }
+                } else {
+                    current_auto_player.action(action);
+                }
+
                 //Change player to play a turn
-                if (current_auto_player == left_player) {
+                if (current_auto_player.equals(left_player)) {
                     current_auto_player = right_player;
                 } else {
                     current_auto_player = left_player;
                 }
 
-                //Not using heal at maximum health
-                if (current_auto_player.getHealth() == 50) {
-                    current_auto_player.action(rand.nextInt(2));
-                } else {
-                    current_auto_player.action(rand.nextInt(3));
-                }
-
                 updateProgressBars();
                 current_auto_player.incrementTurn();
-                Log.d("oof", "TURN PLAYED");
                 automatic_handler.postDelayed(automatic_runnable, delay);
                 }
             };
@@ -159,11 +224,6 @@ public class activity_game extends AppCompatActivity {
 
         game_BAR_rightPlayer.setMax(right_player.getHealth());
         game_BAR_rightPlayer.setProgress(right_player.getHealth());
-
-/*        Drawable left_draw = getDrawable(R.drawable.progressbar_border);
-        Drawable right_draw = getDrawable(R.drawable.progressbar_border);
-        game_BAR_leftPlayer.setProgressDrawable(left_draw);
-        game_BAR_rightPlayer.setProgressDrawable(right_draw);*/
     }
 
     //Click listener for the manual game.
@@ -258,9 +318,7 @@ public class activity_game extends AppCompatActivity {
                         Toast.makeText(activity_game.this,"RIGHT PLAYER WON!", Toast.LENGTH_SHORT).show();
                     }
                     game_BTN_roll.setVisibility(View.INVISIBLE);
-                    game_IMG_dice1.setVisibility(View.INVISIBLE);
-                    game_IMG_dice2.setVisibility(View.INVISIBLE);
-
+                    setDicesInvisible();
                 }
 
                 @Override
@@ -276,6 +334,19 @@ public class activity_game extends AppCompatActivity {
         }
     };
 
+    //Set dices to invisible after 1.5 seconds.
+    private void setDicesInvisible() {
+        final Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                game_IMG_dice1.setVisibility(View.INVISIBLE);
+                game_IMG_dice2.setVisibility(View.INVISIBLE);
+                timer.cancel();
+            }
+        }, 1500);
+    }
+
     //Update the progress bars.
     private void updateProgressBars() {
         game_BAR_leftPlayer.setProgress(left_player.getHealth());
@@ -287,15 +358,14 @@ public class activity_game extends AppCompatActivity {
     //Update the color of the progress bars if they are below 15 to RED, otherwise to GREEN.
     private void updateProgressBarColors() {
         if (game_BAR_leftPlayer.getProgress() <= 15) {
-            game_BAR_leftPlayer.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC);
+            game_BAR_leftPlayer.setProgressTintList(getColorStateList(R.color.red));
         } else {
-            game_BAR_leftPlayer.getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC);
+            game_BAR_leftPlayer.setProgressTintList(getColorStateList(R.color.green));
         }
-
         if (game_BAR_rightPlayer.getProgress() <= 15) {
-            game_BAR_rightPlayer.getProgressDrawable().setTint(Color.RED);
+            game_BAR_rightPlayer.setProgressTintList(getColorStateList(R.color.red));
         } else {
-            game_BAR_rightPlayer.getProgressDrawable().setTint(Color.GREEN);
+            game_BAR_rightPlayer.setProgressTintList(getColorStateList(R.color.green));
         }
     }
 
@@ -310,8 +380,10 @@ public class activity_game extends AppCompatActivity {
     }
 
     private void finishGame(Player p) {
-        updateButtons("Left", false);
-        updateButtons("Right", false);
+        if (!game_mode) {
+            updateButtons("Left", false);
+            updateButtons("Right", false);
+        }
 
         saveToSharedPreferences(p);
 
@@ -390,6 +462,13 @@ public class activity_game extends AppCompatActivity {
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        // Forward results to EasyPermissions
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
 
@@ -400,7 +479,7 @@ public class activity_game extends AppCompatActivity {
         }
 
         //stop playing music
-        mediaPlayer.stop();
+        mediaPlayer.reset();
         mediaPlayer.release();
 
         Log.d("oof", "ON STOP");
@@ -413,13 +492,18 @@ public class activity_game extends AppCompatActivity {
         //If the runnable is not active and the game mode is automatic - start up the automatic runnable.
         if (!isRunnableActive && !game_mode) {
             isRunnableActive = true;
-            automatic_handler.postDelayed(automatic_runnable, 1000);
+            if (automatic_handler != null) {
+                automatic_handler.postDelayed(automatic_runnable, 1000);
+            }
         }
 
         //play music
-        mediaPlayer = MediaPlayer.create(this, R.raw.activity_game_music);
-        mediaPlayer.setLooping(true);
-        mediaPlayer.start();
+        if (!isMusicPlaying) {
+            mediaPlayer = MediaPlayer.create(this, R.raw.activity_game_music);
+            mediaPlayer.setLooping(true);
+            mediaPlayer.start();
+            isMusicPlaying = true;
+        }
 
         super.onResume();
     }

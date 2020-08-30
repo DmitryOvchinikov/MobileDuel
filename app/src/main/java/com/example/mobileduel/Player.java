@@ -1,5 +1,7 @@
 package com.example.mobileduel;
 
+import com.google.android.gms.maps.model.LatLng;
+
 public class Player {
 
     //true state = alive, false state = dead
@@ -8,15 +10,17 @@ public class Player {
     private boolean state;
     private int turns;
     private int side; // 0 - left, 1 - right
+    private LatLng location;
 
     public Player() {
     }
 
-    public Player(int health, boolean state, int turns, int side) {
+    public Player(int health, boolean state, int turns, int side, LatLng location) {
         this.health = health;
         this.state = state;
         this.turns = turns;
         this.side = side;
+        this.location = location;
     }
 
     public void action(int num) {
@@ -27,7 +31,7 @@ public class Player {
         } else {
             if (this.health > 35) {
                 this.health = 50;
-            } else {
+            } else { //Heal
                 this.health += 15;
             }
         }
@@ -40,6 +44,14 @@ public class Player {
             return true;
         }
         return false;
+    }
+
+    public LatLng getLocation() {
+        return location;
+    }
+
+    public void setLocation(LatLng location) {
+        this.location = location;
     }
 
     public int getHealth() {
