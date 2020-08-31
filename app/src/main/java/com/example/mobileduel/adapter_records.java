@@ -11,12 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -84,10 +81,7 @@ public class adapter_records extends RecyclerView.Adapter<adapter_records.Record
             row_IMG_map.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //MapFragment fragment = new MapFragment(location);
                     Dialog mapDialog = new MapDialog(view.getContext(), location);
-                    //AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                    //activity.getSupportFragmentManager().beginTransaction().replace(R.id.map_layout, fragment).addToBackStack(null).commit();
                     mapDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                     mapDialog.getWindow().setDimAmount(0.8f);
                     mapDialog.show();

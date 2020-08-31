@@ -27,6 +27,7 @@ public class activity_main extends AppCompatActivity {
     private SwitchCompat main_SWT_mode;
 
     private ImageView main_IMG_background;
+    private ImageView main_IMG_title;
 
     private TextView main_LBL_auto;
     private TextView main_LBL_manual;
@@ -72,6 +73,7 @@ public class activity_main extends AppCompatActivity {
 
     private void glideIMGs() {
         Glide.with(this).load(R.drawable.main_background).into(main_IMG_background);
+        Glide.with(this).load(R.drawable.main_title).into(main_IMG_title);
     }
 
     private void findViews() {
@@ -82,6 +84,7 @@ public class activity_main extends AppCompatActivity {
         main_LBL_manual = findViewById(R.id.main_LBL_manual);
         main_recycler_records = findViewById(R.id.main_recycler_records);
         main_BTN_reset = findViewById(R.id.main_BTN_reset);
+        main_IMG_title = findViewById(R.id.main_IMG_title);
     }
 
     private View.OnClickListener resetListener = new View.OnClickListener() {

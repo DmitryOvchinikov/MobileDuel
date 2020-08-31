@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class MySharedPreferences {
 
     public interface KEYS {
-        String TOP10_PLAYERS= "TOP10_PLAYERS";
+        String TOP5_PLAYERS = "TOP5_PLAYERS";
     }
 
     private static MySharedPreferences instance;
@@ -55,13 +55,13 @@ public class MySharedPreferences {
     public void putPlayers(ArrayList<Player> players) {
         Gson gson = new Gson();
         String playersJson = gson.toJson(players);
-        preferences.edit().putString(KEYS.TOP10_PLAYERS, playersJson).apply();
+        preferences.edit().putString(KEYS.TOP5_PLAYERS, playersJson).apply();
     }
 
     public ArrayList<Player> getPlayers() {
         Gson gson = new Gson();
         ArrayList<Player> players;
-        players = gson.fromJson(preferences.getString(KEYS.TOP10_PLAYERS, null), new TypeToken<ArrayList<Player>>(){}.getType());
+        players = gson.fromJson(preferences.getString(KEYS.TOP5_PLAYERS, null), new TypeToken<ArrayList<Player>>(){}.getType());
         if (players == null) {
             players = new ArrayList<>();
         }

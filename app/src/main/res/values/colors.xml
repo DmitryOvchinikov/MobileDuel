@@ -10,5 +10,8 @@
     <color name="green">#2DF800</color>
     <color name="red">#FF030B</color>
 
+    <color name="records_panel">#05bbaa</color>
+    <color name="purple_text">#534293</color>
+
 
 </resources>

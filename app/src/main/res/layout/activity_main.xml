@@ -23,6 +23,15 @@
             android:scaleType="centerCrop"
             />
 
+        <ImageView
+            android:id="@+id/main_IMG_title"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerCrop"
+            android:layout_alignParentTop="true"
+            />
+
         <TextView
             android:id="@+id/main_LBL_auto"
             android:layout_width="wrap_content"
@@ -75,7 +84,7 @@
             app:switchMinWidth="75dp"
             />
 
-        <Button
+        <Button style="@style/Widget.AppCompat.Button.Colored"
             android:id="@+id/main_BTN_play"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -83,11 +92,12 @@
             android:textAllCaps="true"
             android:layout_centerHorizontal="true"
             android:layout_above="@id/main_LBL_mode"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="25dp"
             android:textStyle="bold"
+            android:textColor="@color/purple_text"
             />
 
-        <Button
+        <Button style="@style/Widget.AppCompat.Button.Colored"
             android:id="@+id/main_BTN_reset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -96,6 +106,7 @@
             android:layout_below="@+id/main_LBL_mode"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
+            android:textColor="@color/purple_text"
             />
 
 
@@ -128,7 +139,7 @@
                 android:text="@string/records"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="@color/dark_red"
+                android:textColor="@color/purple_text"
                 />
 
         </RelativeLayout>

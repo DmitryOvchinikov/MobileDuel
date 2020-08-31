@@ -1,5 +1,8 @@
 package com.example.mobileduel;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import com.google.android.gms.maps.model.LatLng;
 
 public class Player {
@@ -24,10 +27,14 @@ public class Player {
     }
 
     public void action(int num) {
+        int damage;
+
         if (num == 0) { //Light Attack
-            this.health -= 5;
+            damage = 5;
+            this.health -= damage;
         } else if (num == 1) { //Heavy Attack
-            this.health -= 10;
+            damage = 10;
+            this.health -= damage;
         } else {
             if (this.health > 35) {
                 this.health = 50;
@@ -81,6 +88,7 @@ public class Player {
     public int getSide() {
         return side;
     }
+
     public void setSide(int side) {
         this.side = side;
     }
