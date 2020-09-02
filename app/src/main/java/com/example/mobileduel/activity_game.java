@@ -11,7 +11,6 @@ import android.location.LocationManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -71,6 +70,7 @@ public class activity_game extends AppCompatActivity {
     private boolean isMusicPlaying = false;
 
     private LatLng latLng;
+    private Toast dice_toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +122,6 @@ public class activity_game extends AppCompatActivity {
             location[1] = loc.getLatitude();
         }
         latLng = new LatLng(location[1], location[0]);
-        Log.d("oof", "" + latLng.toString());
     }
 
     //Play the game automatically via a handler with a delay of 1 second per turn.
@@ -290,11 +289,11 @@ public class activity_game extends AppCompatActivity {
                         Glide.with(view).load(res).into(game_IMG_dice2);
                     }
 
-
                     boolean isLeftStarting = chooseStartingPlayer(left_value, right_value);
 
+                    //Draw, show toast and stop.
                     if (left_value == right_value) {
-                        Toast.makeText(activity_game.this,"DRAW! ROLL AGAIN!", Toast.LENGTH_SHORT).show();
+                        showToast("DRAW! ROLL AGAIN!");
                         game_BTN_roll.setEnabled(true);
                         return;
                     }
@@ -307,7 +306,7 @@ public class activity_game extends AppCompatActivity {
                         } else {
                             playAutomatic(left_player);
                         }
-                        Toast.makeText(activity_game.this,"LEFT PLAYER WON!", Toast.LENGTH_SHORT).show();
+                        showToast("LEFT PLAYER WON!");
                     } else {
                         if (game_mode) {
                             updateButtons("right", true);
@@ -315,7 +314,7 @@ public class activity_game extends AppCompatActivity {
                         } else {
                             playAutomatic(right_player);
                         }
-                        Toast.makeText(activity_game.this,"RIGHT PLAYER WON!", Toast.LENGTH_SHORT).show();
+                        showToast("RIGHT PLAYER WON!");
                     }
                     game_BTN_roll.setVisibility(View.INVISIBLE);
                     setDicesInvisible();
@@ -461,6 +460,21 @@ public class activity_game extends AppCompatActivity {
         game_BAR_rightPlayer = findViewById(R.id.game_BAR_rightPlayer);
     }
 
+    private void cancelToast() {
+        dice_toast.cancel();
+    }
+
+    private void showToast(String text) {
+
+        if (dice_toast != null) {
+            dice_toast.cancel();
+        }
+
+        dice_toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT);
+        dice_toast.show();
+
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -481,14 +495,11 @@ public class activity_game extends AppCompatActivity {
         //stop playing music
         mediaPlayer.reset();
         mediaPlayer.release();
-
-        Log.d("oof", "ON STOP");
+        isMusicPlaying = false;
     }
 
     @Override
     protected void onResume() {
-        Log.d("oof", "ON RESUME");
-
         //If the runnable is not active and the game mode is automatic - start up the automatic runnable.
         if (!isRunnableActive && !game_mode) {
             isRunnableActive = true;
@@ -506,6 +517,15 @@ public class activity_game extends AppCompatActivity {
         }
 
         super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (dice_toast != null) {
+            cancelToast();
+        }
     }
 
     @Override
