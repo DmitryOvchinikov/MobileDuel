@@ -1,6 +1,10 @@
 # MobileDuel
 A small duel-like turn-based game.
 
+![Main menu](https://imgur.com/XWaY9YX)
+![Records](https://imgur.com/bKLioa2)
+![Game](https://imgur.com/GLMytIA)
+
 ## Utilized Libraries
 <a href="https://github.com/google/gson">Gson</a>
 <a href="https://github.com/bumptech/glide">Glide</a>
